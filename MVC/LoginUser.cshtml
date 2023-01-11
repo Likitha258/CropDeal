@@ -1,0 +1,83 @@
+﻿@model CropsMVC.Models.LoginViewModel
+
+@{
+    ViewBag.Title = "LoginUser";
+}
+<style>
+    body {
+        background-image: url('../../image/cropss.jpg');
+        background-color: aliceblue;
+        background-repeat: no-repeat;
+        background-size: 100% 447%;
+    }
+</style>
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal style="padding-top: 1%; padding-left: 11%;">
+
+
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <table style="color:black">
+            <tr>
+                @*<td class="control-label col-md-2">Login</td>*@
+                <td>
+                    @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-2" })
+                </td>
+                <td>
+                    @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+                </td>
+                <td>
+                    @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                </td>
+                <td>
+                    @Html.LabelFor(model => model.password, htmlAttributes: new { @class = "control-label col-md-2" })
+                </td>
+                <td>
+                    @Html.EditorFor(model => model.password, new { htmlAttributes = new { @class = "form-control" } })
+                </td>
+                <td>
+                    @Html.ValidationMessageFor(model => model.password, "", new { @class = "text-danger" })
+                </td>
+                <td>
+                    <div class="col-md-offset-2 col-md-10 register_textbox">
+                        <input type="submit" value="Login" class="btn btn-default" />
+                    </div>
+                </td>
+            </tr>
+        </table>
+        @*<div class="form-group">
+                @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10 register_textbox">
+                    @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                </div>
+            </div>*@
+
+        @*<div class="form-group">
+                @Html.LabelFor(model => model.password, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10 register_textbox">
+                    @Html.EditorFor(model => model.password, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.password, "", new { @class = "text-danger" })
+
+                </div>
+            </div>*@
+
+        @*<div class="form-group">
+                <div class="col-md-offset-2 col-md-10 register_textbox">
+                    <input type="submit" value="Login" class="btn btn-default" />
+                </div>
+            </div>*@
+    </div>
+    <div style="padding-left: 67%; padding-top: 4px; color: red;">
+        @ViewBag.InvalidCredentialsMsg
+    </div>
+}
+
+
+

@@ -1,0 +1,157 @@
+﻿@model CropsMVC.Models.RegisterViewModel
+
+@{
+    ViewBag.Title = "RegisterUser";
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal" style="padding-left:25%">
+
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+
+            </div>
+        <table>
+            <h4 style=" padding-left: 28%; color: black; text-decoration: underline;">Crop Deal</h4>
+            <tr>
+                <td>
+                    @Html.LabelFor(model => model.ID, htmlAttributes: new { @class = "control-label col-md-2" })
+
+                </td>
+                <td>
+                    <div class="col-md-10 register_textbox">
+                        @Html.EditorFor(model => model.ID, new { htmlAttributes = new { @class = "form-control col-md-2" } })
+                        </div>
+                </td>
+                <td>
+                    @Html.ValidationMessageFor(model => model.ID, "", new { @class = "text-danger" })
+</td>
+            </tr>
+           
+            
+            <tr>
+
+                <td>
+                    @Html.LabelFor(model => model.FirstName, htmlAttributes: new { @class = "control-label col-md-2" })
+                </td>
+                <td>
+                    <div class="col-md-10 register_textbox">
+                        @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control" } })
+
+                    </div>
+                </td>
+                <td>
+                    @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.LabelFor(model => model.LastName, htmlAttributes: new { @class = "control-label col-md-2" })
+                </td>
+                <td>
+                    <div class="col-md-10 register_textbox">
+                        @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control" } })
+                    </div>
+                </td>
+                <td>
+                    @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.LabelFor(model => model.PhoneNumber, htmlAttributes: new { @class = "control-label col-md-2" })
+                </td>
+                <td>
+                    <div class="col-md-10 register_textbox">
+                        @Html.EditorFor(model => model.PhoneNumber, new { htmlAttributes = new { @class = "form-control" } })
+                    </div>
+                </td>
+                <td>
+                    @Html.ValidationMessageFor(model => model.PhoneNumber, "", new { @class = "text-danger" })
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-2" })
+                </td>
+                <td>
+                    <div class="col-md-10 register_textbox">
+                        @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+                    </div>
+                </td>
+                <td>
+                    @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "control-label col-md-2" })
+                </td>
+                <td>
+                    <div class="col-md-10 register_textbox">
+                        @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control" } })
+                    </div>
+                </td>
+                <td>
+                    @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.LabelFor(model => model.Address, htmlAttributes: new { @class = "control-label col-md-2" })
+                </td>
+                <td>
+                    <div class="col-md-10 register_textbox">
+                        @Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "form-control" } })
+                    </div>
+                </td>
+                <td>
+                    @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.LabelFor(model => model.Role, htmlAttributes: new { @class = "control-label col-md-2" })
+
+                </td>
+                <td>
+                    <div class="col-md-10 register_textbox">
+                        @*@Html.EditorFor(model => model.Role, new { htmlAttributes = new { @class = "form-control" } })*@
+                        @Html.RadioButtonFor(m => m.Role, "Farmer") Farmer
+                        @Html.RadioButtonFor(m => m.Role, "Dealer") Dealer
+                    </div>
+                </td>
+                <td>
+                    @Html.ValidationMessageFor(model => model.Role, "", new { @class = "text-danger" })
+                </td>
+            </tr>
+
+        </table>
+
+        <div class="form-group" style="padding-left: 10%; padding-top: 2%; padding-left: 14%; padding-top: 2%;">
+            <div class="col-md-offset-2 col-md-10 register_textbox">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+<style>
+    body {
+        background-image: url('../../image/images2.jpg');
+        background-repeat: no-repeat;
+        background-size: 100% 118%;
+    }
+    table td{
+        padding-bottom:1%;
+    }
+    .col-md-10 {
+        width: 100%
+    }
+</style>
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>

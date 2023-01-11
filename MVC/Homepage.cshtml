@@ -1,0 +1,46 @@
+﻿
+@{
+    ViewBag.Title = "Homepage";
+}
+<style>
+
+    #background {
+        background-image: url('../../image/images.jpg');
+        background-position: inherit;
+        background-repeat: no-repeat;
+        background-size: 100%;
+        width: 30vw;
+        height: 30vh;
+    }
+
+    #text_homePage {
+        font-family: cursive;
+    }
+</style>
+
+<body id="background">
+    <div>
+        <h1 id="Booking_Heading" style="font-family: cursive; font-weight: bold; text-decoration: underline;">Crop Deal </h1>
+
+    </div>
+
+
+    <div Sstyle="padding-center" : 55px;">
+
+        <h2 id="text_homePage"> Buy and Sell </h2>
+        <h2 id="text_homePage"> FreshCrops </h2>
+        <h2 id="text_homePage">Through Online </h2>
+        <h2 id="text_homePage">
+            @Html.ActionLink("Login", "LoginUser")
+        </h2>
+        <h2 id="text_homepage">to BUY or SELL FreshCrops.</h2>
+
+    </div>
+
+    <div style="padding-top: 55px">
+        <h3 id="register_Heading">
+            New User? <br /> <br />
+            @Html.ActionLink("Click Here to Register", "RegisterUser")
+        </h3>
+    </div>
+</body>
