@@ -1,0 +1,469 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="CDProModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="ADMIN">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="Email" Type="nvarchar" MaxLength="50" />
+          <Property Name="Password" Type="nvarchar" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="BANK_DETAILS">
+          <Key>
+            <PropertyRef Name="Acc_Num" />
+          </Key>
+          <Property Name="User_ID" Type="int" />
+          <Property Name="Acc_Num" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Acc_HolderName" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="IFSC_Code" Type="int" Nullable="false" />
+          <Property Name="BankingName" Type="varchar" MaxLength="30" Nullable="false" />
+        </EntityType>
+        <EntityType Name="CROP">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="Crop_IMG" Type="image" />
+          <Property Name="Description" Type="varchar" MaxLength="250" />
+          <Property Name="Price" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="Status" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="User_ID" Type="int" />
+        </EntityType>
+        <EntityType Name="INVOICE">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="Orders_ID" Type="int" />
+          <Property Name="Crop_ID" Type="int" />
+          <Property Name="Crop_Name" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="Crop_Qty" Type="int" Nullable="false" />
+          <Property Name="Total_Price" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="User_ID" Type="int" />
+        </EntityType>
+        <EntityType Name="ORDERS">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="Crop_ID" Type="int" />
+          <Property Name="Crop_Type" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="Crop_Name" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="Crop_Qty" Type="int" Nullable="false" />
+          <Property Name="Total_Price" Type="decimal" Precision="10" Scale="2" />
+        </EntityType>
+        <EntityType Name="UserProfile">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="FirstName" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="LastName" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="PhoneNumber" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="Email" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Password" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="Address" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Role" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Status" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__BANK_DETA__User___37A5467C">
+          <End Role="UserProfile" Type="Self.UserProfile" Multiplicity="0..1" />
+          <End Role="BANK_DETAILS" Type="Self.BANK_DETAILS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserProfile">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="BANK_DETAILS">
+              <PropertyRef Name="User_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__CROP__User_ID__2B3F6F97">
+          <End Role="UserProfile" Type="Self.UserProfile" Multiplicity="0..1" />
+          <End Role="CROP" Type="Self.CROP" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserProfile">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="CROP">
+              <PropertyRef Name="User_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__INVOICE__Crop_ID__33D4B598">
+          <End Role="CROP" Type="Self.CROP" Multiplicity="0..1" />
+          <End Role="INVOICE" Type="Self.INVOICE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CROP">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="INVOICE">
+              <PropertyRef Name="Crop_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__INVOICE__Orders___32E0915F">
+          <End Role="ORDERS" Type="Self.ORDERS" Multiplicity="0..1" />
+          <End Role="INVOICE" Type="Self.INVOICE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ORDERS">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="INVOICE">
+              <PropertyRef Name="Orders_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__INVOICE__User_ID__34C8D9D1">
+          <End Role="UserProfile" Type="Self.UserProfile" Multiplicity="0..1" />
+          <End Role="INVOICE" Type="Self.INVOICE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserProfile">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="INVOICE">
+              <PropertyRef Name="User_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ORDERS__Crop_ID__2E1BDC42">
+          <End Role="CROP" Type="Self.CROP" Multiplicity="0..1" />
+          <End Role="ORDERS" Type="Self.ORDERS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CROP">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ORDERS">
+              <PropertyRef Name="Crop_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="CDProModelStoreContainer">
+          <EntitySet Name="ADMIN" EntityType="Self.ADMIN" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="BANK_DETAILS" EntityType="Self.BANK_DETAILS" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CROP" EntityType="Self.CROP" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="INVOICE" EntityType="Self.INVOICE" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ORDERS" EntityType="Self.ORDERS" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserProfile" EntityType="Self.UserProfile" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__BANK_DETA__User___37A5467C" Association="Self.FK__BANK_DETA__User___37A5467C">
+            <End Role="UserProfile" EntitySet="UserProfile" />
+            <End Role="BANK_DETAILS" EntitySet="BANK_DETAILS" />
+          </AssociationSet>
+          <AssociationSet Name="FK__CROP__User_ID__2B3F6F97" Association="Self.FK__CROP__User_ID__2B3F6F97">
+            <End Role="UserProfile" EntitySet="UserProfile" />
+            <End Role="CROP" EntitySet="CROP" />
+          </AssociationSet>
+          <AssociationSet Name="FK__INVOICE__Crop_ID__33D4B598" Association="Self.FK__INVOICE__Crop_ID__33D4B598">
+            <End Role="CROP" EntitySet="CROP" />
+            <End Role="INVOICE" EntitySet="INVOICE" />
+          </AssociationSet>
+          <AssociationSet Name="FK__INVOICE__Orders___32E0915F" Association="Self.FK__INVOICE__Orders___32E0915F">
+            <End Role="ORDERS" EntitySet="ORDERS" />
+            <End Role="INVOICE" EntitySet="INVOICE" />
+          </AssociationSet>
+          <AssociationSet Name="FK__INVOICE__User_ID__34C8D9D1" Association="Self.FK__INVOICE__User_ID__34C8D9D1">
+            <End Role="UserProfile" EntitySet="UserProfile" />
+            <End Role="INVOICE" EntitySet="INVOICE" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ORDERS__Crop_ID__2E1BDC42" Association="Self.FK__ORDERS__Crop_ID__2E1BDC42">
+            <End Role="CROP" EntitySet="CROP" />
+            <End Role="ORDERS" EntitySet="ORDERS" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="CDProModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="ADMIN">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Password" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="BANK_DETAILS">
+          <Key>
+            <PropertyRef Name="Acc_Num" />
+          </Key>
+          <Property Name="User_ID" Type="Int32" />
+          <Property Name="Acc_Num" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Acc_HolderName" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="IFSC_Code" Type="Int32" Nullable="false" />
+          <Property Name="BankingName" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="UserProfile" Relationship="Self.FK__BANK_DETA__User___37A5467C" FromRole="BANK_DETAILS" ToRole="UserProfile" />
+        </EntityType>
+        <EntityType Name="CROP">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Crop_IMG" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="Description" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="Price" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="Status" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="User_ID" Type="Int32" />
+          <NavigationProperty Name="UserProfile" Relationship="Self.FK__CROP__User_ID__2B3F6F97" FromRole="CROP" ToRole="UserProfile" />
+          <NavigationProperty Name="INVOICEs" Relationship="Self.FK__INVOICE__Crop_ID__33D4B598" FromRole="CROP" ToRole="INVOICE" />
+          <NavigationProperty Name="ORDERS" Relationship="Self.FK__ORDERS__Crop_ID__2E1BDC42" FromRole="CROP" ToRole="ORDERS" />
+        </EntityType>
+        <EntityType Name="INVOICE">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="Orders_ID" Type="Int32" />
+          <Property Name="Crop_ID" Type="Int32" />
+          <Property Name="Crop_Name" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Crop_Qty" Type="Int32" Nullable="false" />
+          <Property Name="Total_Price" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="User_ID" Type="Int32" />
+          <NavigationProperty Name="CROP" Relationship="Self.FK__INVOICE__Crop_ID__33D4B598" FromRole="INVOICE" ToRole="CROP" />
+          <NavigationProperty Name="ORDER" Relationship="Self.FK__INVOICE__Orders___32E0915F" FromRole="INVOICE" ToRole="ORDERS" />
+          <NavigationProperty Name="UserProfile" Relationship="Self.FK__INVOICE__User_ID__34C8D9D1" FromRole="INVOICE" ToRole="UserProfile" />
+        </EntityType>
+        <EntityType Name="ORDER">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="Crop_ID" Type="Int32" />
+          <Property Name="Crop_Type" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Crop_Name" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Crop_Qty" Type="Int32" Nullable="false" />
+          <Property Name="Total_Price" Type="Decimal" Precision="10" Scale="2" />
+          <NavigationProperty Name="CROP" Relationship="Self.FK__ORDERS__Crop_ID__2E1BDC42" FromRole="ORDERS" ToRole="CROP" />
+          <NavigationProperty Name="INVOICEs" Relationship="Self.FK__INVOICE__Orders___32E0915F" FromRole="ORDERS" ToRole="INVOICE" />
+        </EntityType>
+        <EntityType Name="UserProfile">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="FirstName" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="LastName" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="PhoneNumber" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Address" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Role" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Status" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="BANK_DETAILS" Relationship="Self.FK__BANK_DETA__User___37A5467C" FromRole="UserProfile" ToRole="BANK_DETAILS" />
+          <NavigationProperty Name="CROPs" Relationship="Self.FK__CROP__User_ID__2B3F6F97" FromRole="UserProfile" ToRole="CROP" />
+          <NavigationProperty Name="INVOICEs" Relationship="Self.FK__INVOICE__User_ID__34C8D9D1" FromRole="UserProfile" ToRole="INVOICE" />
+        </EntityType>
+        <Association Name="FK__BANK_DETA__User___37A5467C">
+          <End Role="UserProfile" Type="Self.UserProfile" Multiplicity="0..1" />
+          <End Role="BANK_DETAILS" Type="Self.BANK_DETAILS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserProfile">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="BANK_DETAILS">
+              <PropertyRef Name="User_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__CROP__User_ID__2B3F6F97">
+          <End Role="UserProfile" Type="Self.UserProfile" Multiplicity="0..1" />
+          <End Role="CROP" Type="Self.CROP" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserProfile">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="CROP">
+              <PropertyRef Name="User_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__INVOICE__Crop_ID__33D4B598">
+          <End Role="CROP" Type="Self.CROP" Multiplicity="0..1" />
+          <End Role="INVOICE" Type="Self.INVOICE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CROP">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="INVOICE">
+              <PropertyRef Name="Crop_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ORDERS__Crop_ID__2E1BDC42">
+          <End Role="CROP" Type="Self.CROP" Multiplicity="0..1" />
+          <End Role="ORDERS" Type="Self.ORDER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CROP">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ORDERS">
+              <PropertyRef Name="Crop_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__INVOICE__Orders___32E0915F">
+          <End Role="ORDERS" Type="Self.ORDER" Multiplicity="0..1" />
+          <End Role="INVOICE" Type="Self.INVOICE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ORDERS">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="INVOICE">
+              <PropertyRef Name="Orders_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__INVOICE__User_ID__34C8D9D1">
+          <End Role="UserProfile" Type="Self.UserProfile" Multiplicity="0..1" />
+          <End Role="INVOICE" Type="Self.INVOICE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserProfile">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="INVOICE">
+              <PropertyRef Name="User_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="CDProEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="ADMINs" EntityType="Self.ADMIN" />
+          <EntitySet Name="BANK_DETAILS" EntityType="Self.BANK_DETAILS" />
+          <EntitySet Name="CROPs" EntityType="Self.CROP" />
+          <EntitySet Name="INVOICEs" EntityType="Self.INVOICE" />
+          <EntitySet Name="ORDERS" EntityType="Self.ORDER" />
+          <EntitySet Name="UserProfiles" EntityType="Self.UserProfile" />
+          <AssociationSet Name="FK__BANK_DETA__User___37A5467C" Association="Self.FK__BANK_DETA__User___37A5467C">
+            <End Role="UserProfile" EntitySet="UserProfiles" />
+            <End Role="BANK_DETAILS" EntitySet="BANK_DETAILS" />
+          </AssociationSet>
+          <AssociationSet Name="FK__CROP__User_ID__2B3F6F97" Association="Self.FK__CROP__User_ID__2B3F6F97">
+            <End Role="UserProfile" EntitySet="UserProfiles" />
+            <End Role="CROP" EntitySet="CROPs" />
+          </AssociationSet>
+          <AssociationSet Name="FK__INVOICE__Crop_ID__33D4B598" Association="Self.FK__INVOICE__Crop_ID__33D4B598">
+            <End Role="CROP" EntitySet="CROPs" />
+            <End Role="INVOICE" EntitySet="INVOICEs" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ORDERS__Crop_ID__2E1BDC42" Association="Self.FK__ORDERS__Crop_ID__2E1BDC42">
+            <End Role="CROP" EntitySet="CROPs" />
+            <End Role="ORDERS" EntitySet="ORDERS" />
+          </AssociationSet>
+          <AssociationSet Name="FK__INVOICE__Orders___32E0915F" Association="Self.FK__INVOICE__Orders___32E0915F">
+            <End Role="ORDERS" EntitySet="ORDERS" />
+            <End Role="INVOICE" EntitySet="INVOICEs" />
+          </AssociationSet>
+          <AssociationSet Name="FK__INVOICE__User_ID__34C8D9D1" Association="Self.FK__INVOICE__User_ID__34C8D9D1">
+            <End Role="UserProfile" EntitySet="UserProfiles" />
+            <End Role="INVOICE" EntitySet="INVOICEs" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="CDProModelStoreContainer" CdmEntityContainer="CDProEntities">
+          <EntitySetMapping Name="ADMINs">
+            <EntityTypeMapping TypeName="CDProModel.ADMIN">
+              <MappingFragment StoreEntitySet="ADMIN">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BANK_DETAILS">
+            <EntityTypeMapping TypeName="CDProModel.BANK_DETAILS">
+              <MappingFragment StoreEntitySet="BANK_DETAILS">
+                <ScalarProperty Name="User_ID" ColumnName="User_ID" />
+                <ScalarProperty Name="Acc_Num" ColumnName="Acc_Num" />
+                <ScalarProperty Name="Acc_HolderName" ColumnName="Acc_HolderName" />
+                <ScalarProperty Name="IFSC_Code" ColumnName="IFSC_Code" />
+                <ScalarProperty Name="BankingName" ColumnName="BankingName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CROPs">
+            <EntityTypeMapping TypeName="CDProModel.CROP">
+              <MappingFragment StoreEntitySet="CROP">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Crop_IMG" ColumnName="Crop_IMG" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="User_ID" ColumnName="User_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="INVOICEs">
+            <EntityTypeMapping TypeName="CDProModel.INVOICE">
+              <MappingFragment StoreEntitySet="INVOICE">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Orders_ID" ColumnName="Orders_ID" />
+                <ScalarProperty Name="Crop_ID" ColumnName="Crop_ID" />
+                <ScalarProperty Name="Crop_Name" ColumnName="Crop_Name" />
+                <ScalarProperty Name="Crop_Qty" ColumnName="Crop_Qty" />
+                <ScalarProperty Name="Total_Price" ColumnName="Total_Price" />
+                <ScalarProperty Name="User_ID" ColumnName="User_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ORDERS">
+            <EntityTypeMapping TypeName="CDProModel.ORDER">
+              <MappingFragment StoreEntitySet="ORDERS">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Crop_ID" ColumnName="Crop_ID" />
+                <ScalarProperty Name="Crop_Type" ColumnName="Crop_Type" />
+                <ScalarProperty Name="Crop_Name" ColumnName="Crop_Name" />
+                <ScalarProperty Name="Crop_Qty" ColumnName="Crop_Qty" />
+                <ScalarProperty Name="Total_Price" ColumnName="Total_Price" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserProfiles">
+            <EntityTypeMapping TypeName="CDProModel.UserProfile">
+              <MappingFragment StoreEntitySet="UserProfile">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="Role" ColumnName="Role" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
